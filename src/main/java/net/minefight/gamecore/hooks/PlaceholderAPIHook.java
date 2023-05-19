@@ -9,16 +9,19 @@ import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class PlaceholderAPIHook extends PlaceholderExpansion {
 
-    private final DecimalFormat decimalFormat;
+    private final DecimalFormat economyFormat;
+    private final NumberFormat goldFormat;
     private final GameConfig config;
 
     public PlaceholderAPIHook() {
         GameCore plugin = GameCore.getInstance();
         config = plugin.getGameConfig();
-        decimalFormat = config.getEconomyFormat();
+        economyFormat = config.getEconomyFormat();
+        goldFormat = config.getGoldFormat();
     }
 
     @Override
@@ -52,6 +55,10 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
             return String.valueOf(data.getGold());
         }
 
+        if (params.equals("gold_formatted")) {
+            return goldFormat.format(data.getGold());
+        }
+
         if (params.equals("blocksmined")) {
             return String.valueOf(data.getMined());
         }
@@ -65,7 +72,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         }
 
         if (params.equals("bal_formatted") || params.equals("balance_formatted") || params.equals("money_formatted")) {
-            return decimalFormat.format(data.getBalance());
+            return economyFormat.format(data.getBalance());
         }
 
         if (params.equals("kills")) {

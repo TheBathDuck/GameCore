@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import java.text.DecimalFormat;
 
 @CommandAlias("eco")
+@CommandPermission("minefight.command.economy")
 public class EconomyCommand extends BaseCommand {
 
     public final PlayerManager playerManager;
@@ -41,6 +42,8 @@ public class EconomyCommand extends BaseCommand {
     @Subcommand("set")
     @CommandCompletion("@players")
     @Syntax("<player> <amount>")
+    @CommandPermission("minefight.command.economy.set")
+    @Description("Set a player's balance.")
     public void setEconomy(CommandSender sender, OnlinePlayer onlineTarget, double amount) {
         if (onlineTarget == null) {
             sender.sendMessage(ChatUtils.color("<danger>Target is not a valid player."));
@@ -58,6 +61,8 @@ public class EconomyCommand extends BaseCommand {
     @Subcommand("give")
     @CommandCompletion("@players")
     @Syntax("<player> <amount>")
+    @CommandPermission("minefight.command.economy.give")
+    @Description("Add a amount to player's balance.")
     public void giveEconomy(CommandSender sender, OnlinePlayer onlineTarget, double amount) {
         if (onlineTarget == null) {
             sender.sendMessage(ChatUtils.color("<danger>Target is not a valid player."));
@@ -76,6 +81,8 @@ public class EconomyCommand extends BaseCommand {
     @Subcommand("take")
     @CommandCompletion("@players")
     @Syntax("<player> <amount>")
+    @CommandPermission("minefight.command.economy.take")
+    @Description("Take a amount from a player's balance")
     public void takeEconomy(CommandSender sender, OnlinePlayer onlineTarget, double amount) {
         if (onlineTarget == null) {
             sender.sendMessage(ChatUtils.color("<danger>Target is not a valid player."));
@@ -99,6 +106,8 @@ public class EconomyCommand extends BaseCommand {
     @Subcommand("reset")
     @CommandCompletion("@players")
     @Syntax("<player> <amount>")
+    @CommandPermission("minefight.command.economy.reset")
+    @Description("Reset a player's balance.")
     public void resetEconomy(CommandSender sender, OnlinePlayer onlineTarget) {
         if (onlineTarget == null) {
             sender.sendMessage(ChatUtils.color("<danger>Target is not a valid player."));

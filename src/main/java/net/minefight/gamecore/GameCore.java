@@ -94,6 +94,7 @@ public final class GameCore extends JavaPlugin {
         /* Economy Commands */
         commandManager.registerCommand(new EconomyCommand());
         commandManager.registerCommand(new BalanceCommand());
+        commandManager.registerCommand(new GoldCommand());
 
         /* Admin Commands */
         commandManager.registerCommand(new MinefightCommand());

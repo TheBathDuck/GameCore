@@ -8,12 +8,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 
 public class GameConfig {
 
     private @Getter Location serverSpawn;
     private @Getter String economySign;
     private @Getter DecimalFormat economyFormat;
+    private @Getter NumberFormat goldFormat;
 
     public GameConfig() {
         GameCore plugin = GameCore.getInstance();
@@ -39,6 +41,8 @@ public class GameConfig {
             symbols.setGroupingSeparator('.');
             economyFormat = new DecimalFormat(config.getString("economy.format"), symbols);
         }
+
+        goldFormat = NumberFormat.getInstance();
     }
 
 
