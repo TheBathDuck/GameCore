@@ -1,0 +1,9 @@
+locations:
+  spawn: "world;18.5;71;18.5;64;6"
+
+database:
+  host: ""
+  port: 3306
+  database: ""
+  username: ""
+  password: ""
