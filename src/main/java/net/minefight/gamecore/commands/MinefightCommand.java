@@ -1,11 +1,12 @@
 package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Subcommand;
 import net.minefight.gamecore.GameCore;
-import net.minefight.gamecore.configuration.ServerConfig;
 import net.minefight.gamecore.utils.ChatUtils;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 @CommandAlias("minefight")
@@ -21,12 +22,8 @@ public class MinefightCommand extends BaseCommand {
     @Subcommand("reload")
     public void reload(Player player) {
         GameCore plugin = GameCore.getInstance();
-
         player.sendMessage(ChatUtils.color("<primary>Reloading configuration."));
-
-        plugin.reloadConfig();
-        plugin.setServerConfig(new ServerConfig());
-
+        plugin.getGameConfig().reload();
         player.sendMessage(ChatUtils.color("<primary>Server configuration reloaded."));
     }
 

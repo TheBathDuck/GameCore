@@ -11,16 +11,21 @@ public class PlayerData {
     private @Getter @Setter int gold;
     private @Getter long firstJoin;
     private @Getter @Setter long lastJoin;
-    private @Getter @Setter int mined;
     private @Getter @Setter double balance;
 
-    public PlayerData(UUID uuid, int gold, long firstJoin, long lastJoin, int mined, double balance) {
+    private @Getter @Setter int mined;
+    private @Getter @Setter int kills;
+    private @Getter @Setter int deaths;
+
+    public PlayerData(UUID uuid, int gold, long firstJoin, long lastJoin, int mined, double balance, int kills, int deaths) {
         this.uuid = uuid;
         this.gold = gold;
         this.firstJoin = firstJoin;
         this.lastJoin = lastJoin;
         this.mined = mined;
         this.balance = balance;
+        this.kills = kills;
+        this.deaths = deaths;
     }
 
 }

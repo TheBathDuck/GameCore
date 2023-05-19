@@ -56,6 +56,8 @@ public class Database {
                     "lastJoin BIGINT NOT NULL, " +
                     "mined INTEGER DEFAULT 0, " +
                     "balance DOUBLE DEFAULT 0, " +
+                    "kills INTEGER DEFAULT 0, " +
+                    "deaths INTEGER DEFAULT 0, " +
                     "PRIMARY KEY (uuid));";
             playerData.executeUpdate(dataTableQuery);
             Bukkit.getLogger().info("-> " + dataTableQuery);
@@ -89,19 +91,21 @@ public class Database {
         }, executorService);
     }
 
-    public CompletableFuture<PlayerData> createPlayer(UUID uuid, int gold, long firstJoin, long lastJoin, int blocksMined, double balance) {
+    public CompletableFuture<PlayerData> createPlayer(UUID uuid, long firstJoin) {
         return CompletableFuture.supplyAsync(() -> {
             PreparedStatement statement = null;
             try (Connection connection = hikari.getConnection()) {
-                statement = connection.prepareStatement("INSERT INTO Players (uuid, gold, firstJoin, lastJoin, mined, balance) VALUES (?, ?, ?, ?, ?, ?)");
+                statement = connection.prepareStatement("INSERT INTO Players (uuid, gold, firstJoin, lastJoin, mined, balance, kills, deaths) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 statement.setString(1, uuid.toString());
-                statement.setInt(2, gold);
+                statement.setInt(2, 0);
                 statement.setLong(3, firstJoin);
-                statement.setLong(4, lastJoin);
-                statement.setInt(5, blocksMined);
-                statement.setDouble(6, balance);
+                statement.setLong(4, firstJoin);
+                statement.setInt(5, 0);
+                statement.setDouble(6, 0);
+                statement.setInt(7, 0);
+                statement.setInt(8, 0);
                 statement.executeUpdate();
-                return new PlayerData(uuid, gold, firstJoin, lastJoin, blocksMined, balance);
+                return new PlayerData(uuid, 0, firstJoin, firstJoin, 0, 0, 0 , 0);
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -140,12 +144,14 @@ public class Database {
             PreparedStatement statement = null;
             try (Connection connection = hikari.getConnection()) {
 
-                statement = connection.prepareStatement("UPDATE Players SET gold = ?, lastJoin = ?, mined = ?, balance = ? WHERE uuid = ?");
+                statement = connection.prepareStatement("UPDATE Players SET gold = ?, lastJoin = ?, mined = ?, balance = ?, kills = ?, deaths = ? WHERE uuid = ?");
                 statement.setInt(1, data.getGold());
                 statement.setLong(2, data.getLastJoin());
                 statement.setInt(3, data.getMined());
                 statement.setDouble(4, data.getBalance());
-                statement.setString(5, data.getUuid().toString());
+                statement.setInt(5, data.getKills());
+                statement.setInt(6, data.getDeaths());
+                statement.setString(7, data.getUuid().toString());
                 statement.executeUpdate();
 
             } catch (SQLException e) {
@@ -174,7 +180,9 @@ public class Database {
                     long lastJoin = resultSet.getLong("lastJoin");
                     int mined = resultSet.getInt("mined");
                     double balance = resultSet.getDouble("balance");
-                    return new PlayerData(uuid, gold, firstJoin, lastJoin, mined, balance);
+                    int kills = resultSet.getInt("kills");
+                    int deaths = resultSet.getInt("deaths");
+                    return new PlayerData(uuid, gold, firstJoin, lastJoin, mined, balance, kills, deaths);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

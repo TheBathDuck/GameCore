@@ -1,9 +1,10 @@
-package net.minefight.gamecore.commands;
+package net.minefight.gamecore.commands.economy;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.GameCore;
+import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.players.PlayerData;
 import net.minefight.gamecore.players.PlayerManager;
@@ -18,12 +19,15 @@ public class EconomyCommand extends BaseCommand {
 
     public final PlayerManager playerManager;
     private final Database database;
+    private final GameConfig config;
     public DecimalFormat decimalFormat;
 
     public EconomyCommand() {
-        playerManager = GameCore.getInstance().getPlayerManager();
-        database = GameCore.getInstance().getDatabase();
-        decimalFormat = new DecimalFormat("#,##0.0#");
+        GameCore plugin = GameCore.getInstance();
+        config = plugin.getGameConfig();
+        playerManager = plugin.getPlayerManager();
+        database = plugin.getDatabase();
+        decimalFormat = config.getEconomyFormat();
     }
 
     @Default
@@ -46,8 +50,8 @@ public class EconomyCommand extends BaseCommand {
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());
 
         targetData.setBalance(amount);
-        sender.sendMessage(ChatUtils.color("<primary>You set <secondary>" + target.getName() + "'s <primary>balance to <secondary>€" + format(amount) + "<primary>."));
-        target.sendMessage(ChatUtils.color("<primary>Your balance was set to <secondary>€" + format(amount) + "."));
+        sender.sendMessage(ChatUtils.color("<primary>You set <secondary>" + target.getName() + "'s <primary>balance to <secondary>" + config.getEconomySign() + format(amount) + "<primary>."));
+        target.sendMessage(ChatUtils.color("<primary>Your balance was set to <secondary>" + config.getEconomySign() + format(amount) + "."));
         updateData(targetData);
     }
 
@@ -64,8 +68,8 @@ public class EconomyCommand extends BaseCommand {
 
         targetData.setBalance(targetData.getBalance() + amount);
 
-        sender.sendMessage(ChatUtils.color("<primary>You deposited <secondary>€" + format(amount) + " <primary>to <secondary>" + target.getName() + "'s<primary> balance."));
-        target.sendMessage(ChatUtils.color("<primary>You received <secondary>€" + format(amount) + " <primary>from <secondary>" + sender.getName() + "<primary>."));
+        sender.sendMessage(ChatUtils.color("<primary>You deposited <secondary>" + config.getEconomySign() + format(amount) + " <primary>to <secondary>" + target.getName() + "'s<primary> balance."));
+        target.sendMessage(ChatUtils.color("<primary>You received <secondary>" + config.getEconomySign() + format(amount) + " <primary>from <secondary>" + sender.getName() + "<primary>."));
         updateData(targetData);
     }
 
@@ -81,14 +85,14 @@ public class EconomyCommand extends BaseCommand {
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());
         double balance = targetData.getBalance();
 
-        if(balance < amount) {
-            sender.sendMessage(ChatUtils.color("<danger>" + target.getName() + " only has €" + format(balance) + "."));
+        if (balance < amount) {
+            sender.sendMessage(ChatUtils.color("<danger>" + target.getName() + " only has " + config.getEconomySign() + format(balance) + "."));
             return;
         }
 
         targetData.setBalance(balance - amount);
-        sender.sendMessage(ChatUtils.color("<primary>You took <secondary>€" + format(amount) + " <primary>from <secondary>" + target.getName()));
-        target.sendMessage(ChatUtils.color("<secondary>€" + amount + " <primary>has been taken from your account."));
+        sender.sendMessage(ChatUtils.color("<primary>You took <secondary>" + config.getEconomySign() + format(amount) + " <primary>from <secondary>" + target.getName()));
+        target.sendMessage(ChatUtils.color("<secondary>" + config.getEconomySign() + amount + " <primary>has been taken from your account."));
         updateData(targetData);
     }
 
@@ -104,8 +108,8 @@ public class EconomyCommand extends BaseCommand {
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());
         targetData.setBalance(0);
 
-        sender.sendMessage(ChatUtils.color("<primary>Balance of <secondary>" + target.getName() + " <primary>has been reset and set to <secondary>€" + format(targetData.getBalance()) + "<primary>."));
-        target.sendMessage(ChatUtils.color("<primary>Your balance has been reset to <secondary>€" + format(targetData.getBalance())));
+        sender.sendMessage(ChatUtils.color("<primary>Balance of <secondary>" + target.getName() + " <primary>has been reset and set to <secondary>" + config.getEconomySign() + format(targetData.getBalance()) + "<primary>."));
+        target.sendMessage(ChatUtils.color("<primary>Your balance has been reset to <secondary>" + config.getEconomySign() + format(targetData.getBalance())));
         updateData(targetData);
     }
 
@@ -114,7 +118,8 @@ public class EconomyCommand extends BaseCommand {
     }
 
     private void updateData(PlayerData data) {
-        database.updateData(data).thenAccept((d) -> {});
+        database.updateData(data).thenAccept((d) -> {
+        });
     }
 
 

@@ -2,20 +2,21 @@ package net.minefight.gamecore;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
-import lombok.Setter;
 import net.minefight.gamecore.commands.*;
+import net.minefight.gamecore.commands.economy.BalanceCommand;
+import net.minefight.gamecore.commands.economy.EconomyCommand;
 import net.minefight.gamecore.commands.gamemode.*;
 import net.minefight.gamecore.commands.moderation.InventoryCheckCommand;
 import net.minefight.gamecore.commands.teleportation.TeleportAllCommand;
 import net.minefight.gamecore.commands.teleportation.TeleportCommand;
 import net.minefight.gamecore.commands.teleportation.TeleportHereCommand;
-import net.minefight.gamecore.configuration.ServerConfig;
+import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.hooks.PlaceholderAPIHook;
-import net.minefight.gamecore.listeners.BlocksMinedListener;
 import net.minefight.gamecore.listeners.CommandBlockListener;
 import net.minefight.gamecore.listeners.PlayerJoinListener;
 import net.minefight.gamecore.listeners.PlayerQuitListener;
+import net.minefight.gamecore.listeners.StatsListener;
 import net.minefight.gamecore.players.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,19 +26,18 @@ import java.util.Arrays;
 public final class GameCore extends JavaPlugin {
 
     private static @Getter GameCore instance;
-    private @Getter
-    @Setter ServerConfig serverConfig;
 
     private @Getter PaperCommandManager commandManager;
     private @Getter Database database;
     private @Getter PlayerManager playerManager;
+    private @Getter GameConfig gameConfig;
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
         instance = this;
 
-        serverConfig = new ServerConfig();
+        saveDefaultConfig();
+        gameConfig = new GameConfig();
         playerManager = new PlayerManager();
         commandManager = new PaperCommandManager(this);
 
@@ -55,6 +55,8 @@ public final class GameCore extends JavaPlugin {
 
         registerCommands();
         registerListeners();
+
+        getLogger().severe("PATH: " + this.getDataFolder().getPath());
     }
 
     public void registerListeners() {
@@ -62,7 +64,7 @@ public final class GameCore extends JavaPlugin {
                 new CommandBlockListener(),
                 new PlayerJoinListener(),
                 new PlayerQuitListener(),
-                new BlocksMinedListener()
+                new StatsListener()
         ).forEach(event -> Bukkit.getPluginManager().registerEvents(event, this));
     }
 
@@ -96,6 +98,11 @@ public final class GameCore extends JavaPlugin {
         /* Admin Commands */
         commandManager.registerCommand(new MinefightCommand());
         commandManager.registerCommand(new LagCommand());
+    }
+
+    public void reloadGameConfig() {
+        reloadConfig();
+        gameConfig = new GameConfig();
     }
 
 

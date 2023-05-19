@@ -28,8 +28,7 @@ public class PlayerJoinListener implements Listener {
 
         database.isInDatabase(player.getUniqueId()).thenAccept((isInDatabase) -> {
             if(!isInDatabase) {
-                long currentTime = System.currentTimeMillis();
-                database.createPlayer(player.getUniqueId(), 0, currentTime, currentTime, 0, 0).thenAccept((data) -> {
+                database.createPlayer(player.getUniqueId(), System.currentTimeMillis()).thenAccept((data) -> {
                     player.sendMessage(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>created!"));
                     plugin.getLogger().info("[PlayerData] " + player.getName() + "'s data was created in " + (start - System.currentTimeMillis()) + "ms.");
                     playerManager.registerPlayerData(data);
