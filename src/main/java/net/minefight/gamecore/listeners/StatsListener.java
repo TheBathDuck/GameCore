@@ -23,6 +23,12 @@ public class StatsListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         if(player.getGameMode() == GameMode.CREATIVE) return;
+
+        if(event.isCancelled()) {
+            player.sendMessage("Event was cancelled!");
+            return;
+        }
+
         PlayerData data = playerManager.getPlayerData(player.getUniqueId());
         data.setMined(data.getMined() + 1);
     }

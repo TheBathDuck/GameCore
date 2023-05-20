@@ -18,6 +18,7 @@ import net.minefight.gamecore.listeners.PlayerJoinListener;
 import net.minefight.gamecore.listeners.PlayerQuitListener;
 import net.minefight.gamecore.listeners.StatsListener;
 import net.minefight.gamecore.players.PlayerManager;
+import net.minefight.gamecore.serverstore.CitizensStoreListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -64,7 +65,8 @@ public final class GameCore extends JavaPlugin {
                 new CommandBlockListener(),
                 new PlayerJoinListener(),
                 new PlayerQuitListener(),
-                new StatsListener()
+                new StatsListener(),
+                new CitizensStoreListener()
         ).forEach(event -> Bukkit.getPluginManager().registerEvents(event, this));
     }
 
@@ -85,6 +87,7 @@ public final class GameCore extends JavaPlugin {
         commandManager.registerCommand(new GamemodeSurvivalCommand());
         commandManager.registerCommand(new GamemodeAdventureCommand());
         commandManager.registerCommand(new GamemodeSpectatorCommand());
+        commandManager.registerCommand(new ItemCommand());
 
         /* Teleportation Commands */
         commandManager.registerCommand(new TeleportCommand());

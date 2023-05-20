@@ -4,3 +4,4 @@ main: net.minefight.gamecore.GameCore
 api-version: 1.19
 softdepend:
   - PlaceholderAPI
+  - Citizens

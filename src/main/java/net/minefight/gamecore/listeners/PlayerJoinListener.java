@@ -5,6 +5,7 @@ import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.players.PlayerData;
 import net.minefight.gamecore.players.PlayerManager;
 import net.minefight.gamecore.utils.ChatUtils;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +19,7 @@ public class PlayerJoinListener implements Listener {
         GameCore plugin = GameCore.getInstance();
         Database database = GameCore.getInstance().getDatabase();
         PlayerManager playerManager = GameCore.getInstance().getPlayerManager();
-        player.sendMessage(ChatUtils.color("<primary>Loading playerdata.."));
+        player.sendActionBar(ChatUtils.color("<primary>Loading player data"));
         long start = System.currentTimeMillis();
 
         if(playerManager.isCached(player.getUniqueId())) {
@@ -29,18 +30,27 @@ public class PlayerJoinListener implements Listener {
         database.isInDatabase(player.getUniqueId()).thenAccept((isInDatabase) -> {
             if(!isInDatabase) {
                 database.createPlayer(player.getUniqueId(), System.currentTimeMillis()).thenAccept((data) -> {
-                    player.sendMessage(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>created!"));
+                    player.sendActionBar(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>created!"));
                     plugin.getLogger().info("[PlayerData] " + player.getName() + "'s data was created in " + (start - System.currentTimeMillis()) + "ms.");
                     playerManager.registerPlayerData(data);
+                    setupNewPlayer(player);
                 });
                 return;
             }
             database.getPlayer(player.getUniqueId()).thenAccept(data -> {
-                player.sendMessage(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>loaded!"));
+                player.sendActionBar(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>loaded!"));
                 plugin.getLogger().info("[PlayerData] " + player.getName() + "'s data was loaded in " + (start - System.currentTimeMillis()) + "ms.");
                 playerManager.registerPlayerData(data);
             });
         });
+
+    }
+
+    private void setupNewPlayer(Player player) {
+        player.setGameMode(GameMode.ADVENTURE);
+        player.getInventory().clear();
+
+
 
     }
 
