@@ -13,10 +13,7 @@ import net.minefight.gamecore.commands.teleportation.TeleportHereCommand;
 import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.hooks.PlaceholderAPIHook;
-import net.minefight.gamecore.listeners.CommandBlockListener;
-import net.minefight.gamecore.listeners.PlayerJoinListener;
-import net.minefight.gamecore.listeners.PlayerQuitListener;
-import net.minefight.gamecore.listeners.StatsListener;
+import net.minefight.gamecore.listeners.*;
 import net.minefight.gamecore.menus.MenuManager;
 import net.minefight.gamecore.players.PlayerManager;
 import net.minefight.gamecore.serverstore.CitizensStoreListener;
@@ -66,6 +63,7 @@ public final class GameCore extends JavaPlugin {
                 new CommandBlockListener(),
                 new PlayerJoinListener(),
                 new PlayerQuitListener(),
+                new PlayerChatListener(),
                 new StatsListener(),
                 new CitizensStoreListener()
         ).forEach(event -> Bukkit.getPluginManager().registerEvents(event, this));
