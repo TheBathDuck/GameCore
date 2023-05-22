@@ -1,10 +1,7 @@
 package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
@@ -35,7 +32,7 @@ public class ItemCommand extends BaseCommand {
     }
 
     @Subcommand("setname")
-    @CommandAlias("<name>")
+    @Syntax("<name>")
     public void setName(Player player, String name) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -45,7 +42,7 @@ public class ItemCommand extends BaseCommand {
     }
 
     @Subcommand("lore add")
-    @CommandAlias("<text>")
+    @Syntax("<text>")
     public void addLore(Player player, String text) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -56,7 +53,7 @@ public class ItemCommand extends BaseCommand {
     }
 
     @Subcommand("lore set")
-    @CommandAlias("<line> <text>")
+    @Syntax("<line> <text>")
     public void setLore(Player player, int line, String text) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -76,7 +73,7 @@ public class ItemCommand extends BaseCommand {
     }
 
     @Subcommand("lore remove")
-    @CommandAlias("<line>")
+    @Syntax("<line>")
     public void removeLore(Player player, int line) {
         ItemStack item = getItem(player);
         if(item == null) return;

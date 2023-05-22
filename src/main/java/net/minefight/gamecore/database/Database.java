@@ -60,7 +60,6 @@ public class Database {
                     "deaths INTEGER DEFAULT 0, " +
                     "PRIMARY KEY (uuid));";
             playerData.executeUpdate(dataTableQuery);
-            Bukkit.getLogger().info("-> " + dataTableQuery);
             playerData.close();
 
         } catch (SQLException e) {

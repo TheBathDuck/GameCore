@@ -17,6 +17,7 @@ import net.minefight.gamecore.listeners.CommandBlockListener;
 import net.minefight.gamecore.listeners.PlayerJoinListener;
 import net.minefight.gamecore.listeners.PlayerQuitListener;
 import net.minefight.gamecore.listeners.StatsListener;
+import net.minefight.gamecore.menus.MenuManager;
 import net.minefight.gamecore.players.PlayerManager;
 import net.minefight.gamecore.serverstore.CitizensStoreListener;
 import org.bukkit.Bukkit;
@@ -32,6 +33,7 @@ public final class GameCore extends JavaPlugin {
     private @Getter Database database;
     private @Getter PlayerManager playerManager;
     private @Getter GameConfig gameConfig;
+    private @Getter MenuManager menuManager;
 
     @Override
     public void onEnable() {
@@ -41,6 +43,7 @@ public final class GameCore extends JavaPlugin {
         gameConfig = new GameConfig();
         playerManager = new PlayerManager();
         commandManager = new PaperCommandManager(this);
+        menuManager = new MenuManager();
 
         database = new Database(
                 getConfig().getString("database.host"),
@@ -56,8 +59,6 @@ public final class GameCore extends JavaPlugin {
 
         registerCommands();
         registerListeners();
-
-        getLogger().severe("PATH: " + this.getDataFolder().getPath());
     }
 
     public void registerListeners() {
