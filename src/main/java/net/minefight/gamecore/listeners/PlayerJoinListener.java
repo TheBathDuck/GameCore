@@ -41,6 +41,8 @@ public class PlayerJoinListener implements Listener {
                 player.sendActionBar(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>loaded!"));
                 plugin.getLogger().info("[PlayerData] " + player.getName() + "'s data was loaded in " + (start - System.currentTimeMillis()) + "ms.");
                 playerManager.registerPlayerData(data);
+
+                database.getPurchaseHistory(player.getUniqueId()).thenAccept(data::setPurchaseHistory);
             });
         });
 

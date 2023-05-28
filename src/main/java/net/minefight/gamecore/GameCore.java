@@ -16,7 +16,7 @@ import net.minefight.gamecore.hooks.PlaceholderAPIHook;
 import net.minefight.gamecore.listeners.*;
 import net.minefight.gamecore.menus.MenuManager;
 import net.minefight.gamecore.players.PlayerManager;
-import net.minefight.gamecore.serverstore.CitizensStoreListener;
+import net.minefight.gamecore.listeners.CitizensStoreListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

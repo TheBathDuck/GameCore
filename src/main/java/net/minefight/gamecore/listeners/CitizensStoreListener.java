@@ -1,4 +1,4 @@
-package net.minefight.gamecore.serverstore;
+package net.minefight.gamecore.listeners;
 
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;

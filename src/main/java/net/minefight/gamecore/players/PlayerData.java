@@ -1,21 +1,27 @@
 package net.minefight.gamecore.players;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import net.minefight.gamecore.GameCore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Data
 public class PlayerData {
 
-    private final @Getter UUID uuid;
-    private @Getter @Setter int gold;
-    private @Getter long firstJoin;
-    private @Getter @Setter long lastJoin;
-    private @Getter @Setter double balance;
+    private final UUID uuid;
+    private int gold;
+    private long firstJoin;
+    private long lastJoin;
+    private double balance;
 
-    private @Getter @Setter int mined;
-    private @Getter @Setter int kills;
-    private @Getter @Setter int deaths;
+    private int mined;
+    private int kills;
+    private int deaths;
+    private List<PurchaseHistory> purchaseHistory;
 
     public PlayerData(UUID uuid, int gold, long firstJoin, long lastJoin, int mined, double balance, int kills, int deaths) {
         this.uuid = uuid;
@@ -26,6 +32,18 @@ public class PlayerData {
         this.balance = balance;
         this.kills = kills;
         this.deaths = deaths;
+        this.purchaseHistory = new ArrayList<>();
+    }
+
+    public void setGold(int gold, boolean updateDatabase) {
+        setGold(gold);
+        if(!updateDatabase) return;
+        GameCore.getInstance().getDatabase().updateData(this);
+    }
+
+    public void addPurchaseHistory(PurchaseHistory ph) {
+        purchaseHistory.add(ph);
+        GameCore.getInstance().getDatabase().addPurchaseHistory(uuid, ph);
     }
 
 }

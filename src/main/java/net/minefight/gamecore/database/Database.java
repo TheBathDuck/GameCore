@@ -5,10 +5,13 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.players.PlayerData;
+import net.minefight.gamecore.players.PurchaseHistory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -62,6 +65,18 @@ public class Database {
             playerData.executeUpdate(dataTableQuery);
             playerData.close();
 
+            Statement historyStatement = connection.createStatement();
+            String historyQuery = "CREATE TABLE IF NOT EXISTS History(uuid VARCHAR(36), " +
+                    "purchaseuuid VARCHAR(36), " +
+                    "material TEXT, " +
+                    "item TEXT, " +
+                    "cost INTEGER, " +
+                    "visible TINYINT, " +
+                    "date BIGINT, " +
+                    "PRIMARY KEY(purchaseuuid));";
+            historyStatement.executeUpdate(historyQuery);
+            historyStatement.close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -80,12 +95,8 @@ public class Database {
                 e.printStackTrace();
                 return false;
             } finally {
-                try {
-                    statement.close();
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                closeResult(resultSet);
+                closeStatement(statement);
             }
         }, executorService);
     }
@@ -104,15 +115,11 @@ public class Database {
                 statement.setInt(7, 0);
                 statement.setInt(8, 0);
                 statement.executeUpdate();
-                return new PlayerData(uuid, 0, firstJoin, firstJoin, 0, 0, 0 , 0);
+                return new PlayerData(uuid, 0, firstJoin, firstJoin, 0, 0, 0, 0);
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                closeStatement(statement);
             }
             return null;
         }, executorService);
@@ -129,11 +136,7 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                closeStatement(statement);
             }
         }, executorService);
     }
@@ -156,11 +159,7 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                try {
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                closeStatement(statement);
             }
         }, executorService);
     }
@@ -173,7 +172,7 @@ public class Database {
                 statement = connection.prepareStatement("SELECT * from Players WHERE uuid=?");
                 statement.setString(1, uuid.toString());
                 resultSet = statement.executeQuery();
-                if(resultSet.next()) {
+                if (resultSet.next()) {
                     int gold = resultSet.getInt("gold");
                     long firstJoin = resultSet.getLong("firstJoin");
                     long lastJoin = resultSet.getLong("lastJoin");
@@ -186,15 +185,82 @@ public class Database {
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                try {
-                    statement.close();
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                closeResult(resultSet);
+                closeStatement(statement);
             }
             return null;
         }, executorService);
+    }
+
+    public CompletableFuture<Void> addPurchaseHistory(UUID uuid, PurchaseHistory purchaseHistory) {
+        return CompletableFuture.runAsync(() -> {
+            PreparedStatement statement = null;
+            try (Connection connection = hikari.getConnection()) {
+                String query = "INSERT INTO History(uuid, purchaseuuid, material, item, cost, visible, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                statement = connection.prepareStatement(query);
+                statement.setString(1, uuid.toString());
+                statement.setString(2, purchaseHistory.getPurchaseUUID().toString());
+                statement.setString(3, purchaseHistory.getMaterial().toString());
+                statement.setString(4, purchaseHistory.getPurchaseItem());
+                statement.setInt(5, purchaseHistory.getCost());
+                statement.setBoolean(6, purchaseHistory.isVisible());
+                statement.setLong(7, purchaseHistory.getDateLong());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                closeStatement(statement);
+            }
+        });
+    }
+
+    public CompletableFuture<List<PurchaseHistory>> getPurchaseHistory(UUID uuid) {
+        return CompletableFuture.supplyAsync(() -> {
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+            try (Connection connection = hikari.getConnection()) {
+                List<PurchaseHistory> historyList = new ArrayList<>();
+
+                statement = connection.prepareStatement("SELECT * FROM History WHERE uuid=? ORDER BY date");
+                statement.setString(1, uuid.toString());
+                resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    UUID purchaseUuid = UUID.fromString(resultSet.getString("purchaseuuid"));
+                    String material = resultSet.getString("material");
+                    String item = resultSet.getString("item");
+                    int cost = resultSet.getInt("cost");
+                    boolean visible = resultSet.getBoolean("visible");
+                    long date = resultSet.getLong("date");
+                    historyList.add(new PurchaseHistory(purchaseUuid, material, item, cost, visible, date));
+                }
+                return historyList;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                closeResult(resultSet);
+                closeStatement(statement);
+            }
+
+            return null;
+        });
+    }
+
+    public void closeResult(ResultSet set) {
+        if (set == null) return;
+        try {
+            set.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeStatement(PreparedStatement statement) {
+        if (statement == null) return;
+        try {
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 public class GameConfig {
 
@@ -16,6 +17,7 @@ public class GameConfig {
     private @Getter String economySign;
     private @Getter DecimalFormat economyFormat;
     private @Getter NumberFormat goldFormat;
+    private @Getter SimpleDateFormat dateFormat;
 
     public GameConfig() {
         GameCore plugin = GameCore.getInstance();
@@ -43,6 +45,7 @@ public class GameConfig {
         }
 
         goldFormat = NumberFormat.getInstance();
+        dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
     }
 
 
