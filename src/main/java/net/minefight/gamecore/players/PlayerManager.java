@@ -18,6 +18,7 @@ public class PlayerManager {
     }
 
     public void registerPlayerData(PlayerData playerData) {
+        if(playerData == null) return;
         players.add(playerData);
     }
 

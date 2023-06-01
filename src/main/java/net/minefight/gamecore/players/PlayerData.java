@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minefight.gamecore.GameCore;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ public class PlayerData {
     private int mined;
     private int kills;
     private int deaths;
+    private Date joinDate;
     private List<PurchaseHistory> purchaseHistory;
 
     public PlayerData(UUID uuid, int gold, long firstJoin, long lastJoin, int mined, double balance, int kills, int deaths) {
@@ -33,6 +35,7 @@ public class PlayerData {
         this.kills = kills;
         this.deaths = deaths;
         this.purchaseHistory = new ArrayList<>();
+        this.joinDate = new Date(firstJoin);
     }
 
     public void setGold(int gold, boolean updateDatabase) {
@@ -44,6 +47,10 @@ public class PlayerData {
     public void addPurchaseHistory(PurchaseHistory ph) {
         purchaseHistory.add(ph);
         GameCore.getInstance().getDatabase().addPurchaseHistory(uuid, ph);
+    }
+
+    public String getJoinDate() {
+        return GameCore.getInstance().getGameConfig().getDateFormat().format(joinDate);
     }
 
 }

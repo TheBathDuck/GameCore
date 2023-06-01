@@ -34,6 +34,7 @@ public final class GameCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        long start = System.currentTimeMillis();
         instance = this;
 
         saveDefaultConfig();
@@ -56,6 +57,8 @@ public final class GameCore extends JavaPlugin {
 
         registerCommands();
         registerListeners();
+
+        getLogger().warning("Plugin started in " + (start - System.currentTimeMillis()) + "ms!");
     }
 
     public void registerListeners() {
@@ -87,6 +90,7 @@ public final class GameCore extends JavaPlugin {
         commandManager.registerCommand(new GamemodeAdventureCommand());
         commandManager.registerCommand(new GamemodeSpectatorCommand());
         commandManager.registerCommand(new ItemCommand());
+        commandManager.registerCommand(new SkullCommand());
 
         /* Teleportation Commands */
         commandManager.registerCommand(new TeleportCommand());
