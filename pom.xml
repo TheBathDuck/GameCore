@@ -136,6 +136,7 @@
             <groupId>dev.triumphteam</groupId>
             <artifactId>triumph-gui</artifactId>
             <version>3.1.5</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>net.luckperms</groupId>

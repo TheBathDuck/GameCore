@@ -3,14 +3,10 @@ package net.minefight.gamecore;
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.minefight.gamecore.commands.*;
-import net.minefight.gamecore.commands.economy.BalanceCommand;
-import net.minefight.gamecore.commands.economy.EconomyCommand;
-import net.minefight.gamecore.commands.economy.PayCommand;
 import net.minefight.gamecore.commands.gamemode.*;
-import net.minefight.gamecore.commands.moderation.InventoryCheckCommand;
-import net.minefight.gamecore.commands.teleportation.TeleportAllCommand;
-import net.minefight.gamecore.commands.teleportation.TeleportCommand;
-import net.minefight.gamecore.commands.teleportation.TeleportHereCommand;
+import net.minefight.gamecore.commands.economy.*;
+import net.minefight.gamecore.commands.moderation.*;
+import net.minefight.gamecore.commands.teleportation.*;
 import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.hooks.PlaceholderAPIHook;
@@ -74,8 +70,10 @@ public final class GameCore extends JavaPlugin {
     }
 
     public void registerCommands() {
-        /* Player Commands */
+        /* Unsorted Commands */
         commandManager.registerCommand(new SpawnCommand());
+        commandManager.registerCommand(new PingCommand());
+
 
         /* Staff Commands */
         commandManager.registerCommand(new BroadcastCommand());
