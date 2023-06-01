@@ -1,8 +1,7 @@
 package net.minefight.gamecore.commands.economy;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.configuration.GameConfig;
@@ -27,6 +26,9 @@ public class PayCommand extends BaseCommand {
     }
 
     @Default
+    @CommandCompletion("@players")
+    @Syntax("<player> <amount>")
+    @Description("Sent money to someone.")
     public void pay(Player player, OnlinePlayer onlineTarget, double amount) {
         Player target = onlineTarget.getPlayer();
 

@@ -1,16 +1,14 @@
 package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.entity.Player;
 
 @CommandAlias("minefight")
 @CommandPermission("minefight.command.admin")
+@Description("Core command for the minefight-core plugin.")
 public class MinefightCommand extends BaseCommand {
 
     @Default
@@ -20,6 +18,7 @@ public class MinefightCommand extends BaseCommand {
     }
 
     @Subcommand("reload")
+    @Description("Reload the configuration.")
     public void reload(Player player) {
         GameCore plugin = GameCore.getInstance();
         player.sendMessage(ChatUtils.color("<primary>Reloading configuration."));
@@ -28,6 +27,8 @@ public class MinefightCommand extends BaseCommand {
     }
 
     @Subcommand("parsemessage")
+    @Description("Debug a minimessage.")
+    @Syntax("<message>")
     public void parseMessage(Player player, String message) {
         player.sendMessage(ChatUtils.color(message));
     }

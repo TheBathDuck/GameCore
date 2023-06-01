@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 public class HealCommand extends BaseCommand {
 
     @Default
+    @Description("Heal a player.")
+    @CommandCompletion("@players")
+    @Syntax("<player>")
     public void heal(Player player, @Optional OnlinePlayer onlineTarget) {
 
         if(onlineTarget == null) {

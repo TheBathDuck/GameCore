@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandAlias("gold")
+@Description("Commands for the gold currency.")
 public class GoldCommand extends BaseCommand {
 
     private final PlayerManager playerManager;
@@ -24,6 +25,7 @@ public class GoldCommand extends BaseCommand {
     }
 
     @Default
+    @Description("Check your gold balance.")
     public void checkGold(CommandSender sender) {
         if(!(sender instanceof Player)) {
             sender.sendMessage(ChatUtils.color("<danger>Usage: /gold <player>"));
@@ -36,6 +38,8 @@ public class GoldCommand extends BaseCommand {
 
     @Default
     @CommandPermission("minefight.command.gold.others")
+    @Description("Check someone's gold balance.")
+    @CommandCompletion("@players")
     @Syntax("<player>")
     public void checkGoldOther(CommandSender sender, OnlinePlayer onlineTarget) {
         Player target = onlineTarget.getPlayer();
@@ -54,6 +58,8 @@ public class GoldCommand extends BaseCommand {
     @Subcommand("set")
     @CommandPermission("minefight.command.gold.set")
     @Syntax("<player> <amount>")
+    @CommandCompletion("@players")
+    @Description("Set someone's gold balance.")
     public void setGold(CommandSender sender, OnlinePlayer onlineTarget, int amount) {
         Player target = onlineTarget.getPlayer();
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());
@@ -66,6 +72,8 @@ public class GoldCommand extends BaseCommand {
     @Subcommand("give")
     @CommandPermission("minefight.command.gold.give")
     @Syntax("<player> <amount>")
+    @Description("Add gold to someone's gold balance.")
+    @CommandCompletion("@players")
     public void giveGold(CommandSender sender, OnlinePlayer onlineTarget, int amount) {
         Player target = onlineTarget.getPlayer();
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());
@@ -78,6 +86,8 @@ public class GoldCommand extends BaseCommand {
     @Subcommand("take")
     @CommandPermission("minefight.command.gold.take")
     @Syntax("<player> <amount>")
+    @CommandCompletion("@players")
+    @Description("Take gold from someone's balance.")
     public void takeGold(CommandSender sender, OnlinePlayer onlineTarget, int amount) {
         Player target = onlineTarget.getPlayer();
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());
@@ -97,6 +107,8 @@ public class GoldCommand extends BaseCommand {
     @Subcommand("reset")
     @CommandPermission("minefight.command.gold.reset")
     @Syntax("<player>")
+    @CommandCompletion("@players")
+    @Description("Reset someone's gold to 0.")
     public void resetGold(CommandSender sender, OnlinePlayer onlineTarget) {
         Player target = onlineTarget.getPlayer();
         PlayerData targetData = playerManager.getPlayerData(target.getUniqueId());

@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -12,9 +13,11 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("lag|gc")
 @CommandPermission("minefight.command.lag")
+@Description("Check the server stats.")
 public class LagCommand extends BaseCommand {
 
     @Default
+    @Description("Check the server stats.")
     public void lag(Player player) {
 
         String tpsColor = "<gray>";

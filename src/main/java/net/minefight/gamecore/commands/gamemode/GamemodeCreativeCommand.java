@@ -1,10 +1,7 @@
 package net.minefight.gamecore.commands.gamemode;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.GameMode;
@@ -15,6 +12,7 @@ import org.bukkit.entity.Player;
 public class GamemodeCreativeCommand extends BaseCommand {
 
     @Default
+    @Description("Change your gamemode to Creative")
     public void creativeCommand(Player player) {
         player.setGameMode(GameMode.CREATIVE);
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Creative<primary>."));
@@ -23,6 +21,8 @@ public class GamemodeCreativeCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @Description("Change a player's gamemode to Creative")
+    @Syntax("<player>")
     public void creativeOther(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
 

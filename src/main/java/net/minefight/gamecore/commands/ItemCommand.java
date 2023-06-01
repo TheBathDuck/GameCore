@@ -19,6 +19,7 @@ import java.util.List;
 
 @CommandAlias("item")
 @CommandPermission("minefight.command.item")
+@Description("Edit name, lore and more on items.")
 public class ItemCommand extends BaseCommand {
 
     @Default
@@ -33,6 +34,7 @@ public class ItemCommand extends BaseCommand {
 
     @Subcommand("setname")
     @Syntax("<name>")
+    @Description("Edit an item's name.")
     public void setName(Player player, String name) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -43,6 +45,7 @@ public class ItemCommand extends BaseCommand {
 
     @Subcommand("lore add")
     @Syntax("<text>")
+    @Description("Add a lore line.")
     public void addLore(Player player, String text) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -54,6 +57,7 @@ public class ItemCommand extends BaseCommand {
 
     @Subcommand("lore set")
     @Syntax("<line> <text>")
+    @Description("Set a lore line.")
     public void setLore(Player player, int line, String text) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -74,6 +78,7 @@ public class ItemCommand extends BaseCommand {
 
     @Subcommand("lore remove")
     @Syntax("<line>")
+    @Description("Remove a lore line.")
     public void removeLore(Player player, int line) {
         ItemStack item = getItem(player);
         if(item == null) return;
@@ -93,6 +98,7 @@ public class ItemCommand extends BaseCommand {
     }
 
     @Subcommand("lore clear")
+    @Description("Clear lore of an item.")
     public void clearLore(Player player) {
         ItemStack item = getItem(player);
         ItemMeta meta = item.getItemMeta();

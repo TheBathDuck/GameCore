@@ -32,6 +32,7 @@ public class GamemodeCommand extends BaseCommand {
 
     @Subcommand("creative|c")
     @CommandPermission("minefight.command.gamemode.creative")
+    @Description("Change your gamemode to Creative")
     public void creativeSelf(Player player) {
         player.setGameMode(GameMode.CREATIVE);
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Creative<primary>."));
@@ -40,6 +41,7 @@ public class GamemodeCommand extends BaseCommand {
     @Subcommand("creative|c")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.creative.other")
+    @Description("Change a players gamemode to Creative")
     public void creativeOthers(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
 
@@ -57,6 +59,7 @@ public class GamemodeCommand extends BaseCommand {
 
     @Subcommand("survival|s")
     @CommandPermission("minefight.command.gamemode.survival")
+    @Description("Change your gamemode to Survival")
     public void survivalSelf(Player player) {
         player.setGameMode(GameMode.SURVIVAL);
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Survival<primary>."));
@@ -65,6 +68,7 @@ public class GamemodeCommand extends BaseCommand {
     @Subcommand("survival|s")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.survival.other")
+    @Description("Change a players gamemode to Survival")
     public void survivalOthers(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
 
@@ -82,6 +86,7 @@ public class GamemodeCommand extends BaseCommand {
 
     @Subcommand("adventure|a")
     @CommandPermission("minefight.command.adventure.creative")
+    @Description("Change your gamemode to Adventure")
     public void adventureSelf(Player player) {
         player.setGameMode(GameMode.ADVENTURE);
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Adventure<primary>."));
@@ -90,6 +95,7 @@ public class GamemodeCommand extends BaseCommand {
     @Subcommand("adventure|a")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.adventure.other")
+    @Description("Change a players gamemode to Adventure")
     public void adventureOthers(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
 
@@ -107,6 +113,7 @@ public class GamemodeCommand extends BaseCommand {
 
     @Subcommand("spectator|sp")
     @CommandPermission("minefight.command.gamemode.spectator")
+    @Description("Change your gamemode to Specator")
     public void spectatorSelf(Player player) {
         player.setGameMode(GameMode.SPECTATOR);
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Spectator<primary>."));
@@ -115,6 +122,7 @@ public class GamemodeCommand extends BaseCommand {
     @Subcommand("spectator|sp")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.spectator.other")
+    @Description("Change a players gamemode to Specator")
     public void spectatorOthers(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
 

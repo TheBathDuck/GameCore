@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("speed|walkspeed|flyspeed")
 @CommandPermission("minefight.command.speed")
+@Description("Set your fly or walk speed.")
 public class SpeedCommand extends BaseCommand {
 
     public SpeedCommand() {
@@ -21,6 +22,7 @@ public class SpeedCommand extends BaseCommand {
     }
 
     @Default
+    @Description("Change your speed.")
     @CommandCompletion("@range:0-10")
     public void defaultSpeed(CommandSender sender, Integer s) {
 
@@ -44,6 +46,7 @@ public class SpeedCommand extends BaseCommand {
 
     @Subcommand("set")
     @CommandCompletion("@speedtype @players @range:0-10")
+    @Description("Change a player's walk/fly speed.")
     @Syntax("<speedtype> <target> <speed>")
     public void setSpeed(CommandSender sender, String speedtype, OnlinePlayer target, Integer speed) {
 
@@ -68,6 +71,7 @@ public class SpeedCommand extends BaseCommand {
     }
 
     @Subcommand("reset")
+    @Description("Reset a player's speed.")
     @CommandCompletion("@players")
     public void resetSpeed(CommandSender sender, @Optional OnlinePlayer target) {
 

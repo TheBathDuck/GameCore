@@ -1,10 +1,7 @@
 package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
 import com.google.common.collect.ImmutableList;
 import net.kyori.adventure.audience.Audience;
 import net.minefight.gamecore.GameCore;
@@ -15,14 +12,8 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("broadcast|bc")
 @CommandPermission("minefight.command.broadcast")
+@Description("Send a broadcast.")
 public class BroadcastCommand extends BaseCommand {
-
-//    public BroadcastCommand() {
-//        GameCore plugin = GameCore.getInstance();
-//        plugin.getCommandManager().getCommandCompletions().registerCompletion("type", type -> {
-//            return ImmutableList.of("legacy", "modern");
-//        });
-//    }
 
     @Default
     public void help(CommandSender sender) {
@@ -35,6 +26,7 @@ public class BroadcastCommand extends BaseCommand {
     }
 
     @Subcommand("legacy")
+    @Description("Send a legacy broadcast with the & formatting.")
     public void legacy(String message) {
         for(Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(ChatUtils.legacyColor(message));
@@ -42,6 +34,7 @@ public class BroadcastCommand extends BaseCommand {
     }
 
     @Subcommand("modern")
+    @Description("Send a modern broadcast with minimessage formatting")
     public void modern(String message) {
         for(Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(ChatUtils.color(message));

@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("top")
 @CommandPermission("minefight.command.top")
+@Description("Teleport yourself to the top.")
 public class TopCommand extends BaseCommand {
 
     @Default

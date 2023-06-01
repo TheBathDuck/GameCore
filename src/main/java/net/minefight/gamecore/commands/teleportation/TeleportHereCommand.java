@@ -1,20 +1,19 @@
 package net.minefight.gamecore.commands.teleportation;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.entity.Player;
 
 @CommandAlias("tphere|s")
 @CommandPermission("minefight.command.tphere")
+@Description("Teleport someone to you.")
 public class TeleportHereCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @Description("Teleport someone to you.")
     public void teleportHere(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
         if(target == null) {

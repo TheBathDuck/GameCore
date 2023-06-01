@@ -1,10 +1,7 @@
 package net.minefight.gamecore.commands.teleportation;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.Location;
@@ -13,10 +10,13 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("teleport|tp")
 @CommandPermission("minefight.command.teleport")
+@Description("Teleport to a player or coords.")
 public class TeleportCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @Description("Teleport yourself to someone.")
+    @Syntax("<player>")
     public void teleport(Player player, OnlinePlayer onlinePlayer) {
         Player target = onlinePlayer.getPlayer();
         if(target == null) {
@@ -31,6 +31,8 @@ public class TeleportCommand extends BaseCommand {
     @Default
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.teleport.coords")
+    @Description("Teleport yourself to coords.")
+    @Syntax("<x> <y> <z>")
     public void teleportCoords(Player player, double x, double y, double z) {
         Location target = player.getLocation();
         target.setX(x);
@@ -45,6 +47,8 @@ public class TeleportCommand extends BaseCommand {
 
     @Default
     @CommandCompletion("@players")
+    @Syntax("<player> <x> <y> <z>")
+    @Description("Teleport someone to coords.")
     @CommandPermission("minefight.command.teleport.coords.other")
     public void teleportCoordsOthers(OnlinePlayer onlinePlayer, Player player, double x, double y, double z) {
         Player target = onlinePlayer.getPlayer();

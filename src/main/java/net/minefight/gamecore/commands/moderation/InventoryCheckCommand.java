@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 @CommandAlias("invsee|inventory")
 @CommandPermission("minefight.command.invsee")
+@Description("Open a player's inventory.")
 public class InventoryCheckCommand extends BaseCommand {
 
     @Default
@@ -17,6 +18,8 @@ public class InventoryCheckCommand extends BaseCommand {
     }
 
     @Default
+    @CommandCompletion("@players")
+    @Description("Open a player's inventory.")
     public void checkInventory(Player player, OnlinePlayer target) {
 
         if(target == null) {

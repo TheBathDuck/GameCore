@@ -1,16 +1,14 @@
 package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
-import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.*;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.entity.Player;
 
 @CommandAlias("ec|enderchest")
 @CommandPermission("minefight.command.enderchest")
+@Description("Open a player's enderchest.")
 public class EnderChestCommand extends BaseCommand {
 
     @Default

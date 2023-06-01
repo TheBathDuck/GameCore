@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.utils.ChatUtils;
@@ -13,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 @CommandAlias("spawn")
+@Description("Teleport to the server spawn.")
 public class SpawnCommand extends BaseCommand {
 
     @Default

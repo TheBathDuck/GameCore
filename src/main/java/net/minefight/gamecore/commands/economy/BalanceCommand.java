@@ -4,6 +4,7 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Description;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.configuration.GameConfig;
@@ -30,6 +31,7 @@ public class BalanceCommand extends BaseCommand {
     }
 
     @Default
+    @Description("Check your balance.")
     public void balance(CommandSender sender) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatUtils.color("<danger>Use: /balance <player>."));
@@ -42,6 +44,7 @@ public class BalanceCommand extends BaseCommand {
 
     @Default
     @CommandPermission("minefight.command.balance.other")
+    @Description("Check a players balance.")
     public void checkOther(CommandSender sender, OnlinePlayer onlineTarget) {
         if (onlineTarget == null) {
             sender.sendMessage(ChatUtils.color("<danger>Target is not a valid player."));

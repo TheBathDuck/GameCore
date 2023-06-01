@@ -1,9 +1,7 @@
 package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.*;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -16,9 +14,11 @@ import java.util.concurrent.CompletableFuture;
 
 @CommandAlias("skull|head")
 @CommandPermission("minefight.command.skull")
+@Description("Give player skulls.")
 public class SkullCommand extends BaseCommand {
 
     @Default
+    @Description("Get your own skull.")
     public void selfSkull(Player player) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) item.getItemMeta();
@@ -29,6 +29,9 @@ public class SkullCommand extends BaseCommand {
     }
 
     @Default
+    @Description("Get a skull of a player.")
+    @CommandCompletion("@players")
+    @Syntax("<name>")
     public void otherSkulls(Player player, String name) {
         player.sendMessage(ChatUtils.color("<primary>Fetching skull of <secondary>" + name + "<primary>."));
         Bukkit.getScheduler().runTaskAsynchronously(GameCore.getInstance(), () -> {
