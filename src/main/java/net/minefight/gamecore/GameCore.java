@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.minefight.gamecore.commands.*;
 import net.minefight.gamecore.commands.economy.BalanceCommand;
 import net.minefight.gamecore.commands.economy.EconomyCommand;
+import net.minefight.gamecore.commands.economy.PayCommand;
 import net.minefight.gamecore.commands.gamemode.*;
 import net.minefight.gamecore.commands.moderation.InventoryCheckCommand;
 import net.minefight.gamecore.commands.teleportation.TeleportAllCommand;
@@ -100,6 +101,7 @@ public final class GameCore extends JavaPlugin {
         /* Economy Commands */
         commandManager.registerCommand(new EconomyCommand());
         commandManager.registerCommand(new BalanceCommand());
+        commandManager.registerCommand(new PayCommand());
         commandManager.registerCommand(new GoldCommand());
 
         /* Admin Commands */
