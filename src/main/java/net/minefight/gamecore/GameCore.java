@@ -2,6 +2,7 @@ package net.minefight.gamecore;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
+import net.milkbowl.vault.economy.Economy;
 import net.minefight.gamecore.commands.*;
 import net.minefight.gamecore.commands.gamemode.*;
 import net.minefight.gamecore.commands.economy.*;
@@ -10,6 +11,8 @@ import net.minefight.gamecore.commands.teleportation.*;
 import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.hooks.PlaceholderAPIHook;
+import net.minefight.gamecore.hooks.EconomyImplementation;
+import net.minefight.gamecore.hooks.VaultHook;
 import net.minefight.gamecore.listeners.*;
 import net.minefight.gamecore.menus.MenuManager;
 import net.minefight.gamecore.players.PlayerManager;
@@ -28,6 +31,9 @@ public final class GameCore extends JavaPlugin {
     private @Getter PlayerManager playerManager;
     private @Getter GameConfig gameConfig;
     private @Getter MenuManager menuManager;
+
+    private @Getter VaultHook vaultHook;
+    private @Getter Economy economy;
 
     @Override
     public void onEnable() {
@@ -55,7 +61,13 @@ public final class GameCore extends JavaPlugin {
         registerCommands();
         registerListeners();
 
+        hookIntoVault();
         getLogger().warning("Plugin started in " + (start - System.currentTimeMillis()) + "ms!");
+    }
+
+    @Override
+    public void onDisable() {
+        vaultHook.unhook();
     }
 
     public void registerListeners() {
@@ -110,6 +122,17 @@ public final class GameCore extends JavaPlugin {
     public void reloadGameConfig() {
         reloadConfig();
         gameConfig = new GameConfig();
+    }
+
+    private void hookIntoVault() {
+        if(Bukkit.getPluginManager().getPlugin("Vault") == null) {
+            getLogger().warning("[Economy] Couldn't hook into Vault as it's not instaled or disabled.");
+            return;
+        }
+
+        economy = new EconomyImplementation();
+        vaultHook = new VaultHook();
+        vaultHook.hook();
     }
 
 
