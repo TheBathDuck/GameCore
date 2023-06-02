@@ -3,20 +3,25 @@ package net.minefight.gamecore;
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
+import net.minefight.gamecore.combat.CombatManager;
 import net.minefight.gamecore.commands.*;
+import net.minefight.gamecore.commands.economy.BalanceCommand;
+import net.minefight.gamecore.commands.economy.EconomyCommand;
+import net.minefight.gamecore.commands.economy.PayCommand;
 import net.minefight.gamecore.commands.gamemode.*;
-import net.minefight.gamecore.commands.economy.*;
-import net.minefight.gamecore.commands.moderation.*;
-import net.minefight.gamecore.commands.teleportation.*;
+import net.minefight.gamecore.commands.moderation.InventoryCheckCommand;
+import net.minefight.gamecore.commands.teleportation.SpawnCommand;
+import net.minefight.gamecore.commands.teleportation.TeleportAllCommand;
+import net.minefight.gamecore.commands.teleportation.TeleportCommand;
+import net.minefight.gamecore.commands.teleportation.TeleportHereCommand;
 import net.minefight.gamecore.configuration.GameConfig;
 import net.minefight.gamecore.database.Database;
-import net.minefight.gamecore.hooks.PlaceholderAPIHook;
 import net.minefight.gamecore.hooks.EconomyImplementation;
+import net.minefight.gamecore.hooks.PlaceholderAPIHook;
 import net.minefight.gamecore.hooks.VaultHook;
 import net.minefight.gamecore.listeners.*;
 import net.minefight.gamecore.menus.MenuManager;
 import net.minefight.gamecore.players.PlayerManager;
-import net.minefight.gamecore.listeners.CitizensStoreListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,6 +36,7 @@ public final class GameCore extends JavaPlugin {
     private @Getter PlayerManager playerManager;
     private @Getter GameConfig gameConfig;
     private @Getter MenuManager menuManager;
+    private @Getter CombatManager combatManager;
 
     private @Getter VaultHook vaultHook;
     private @Getter Economy economy;
@@ -45,6 +51,7 @@ public final class GameCore extends JavaPlugin {
         playerManager = new PlayerManager();
         commandManager = new PaperCommandManager(this);
         menuManager = new MenuManager();
+        combatManager = new CombatManager();
 
         database = new Database(
                 getConfig().getString("database.host"),
@@ -125,7 +132,7 @@ public final class GameCore extends JavaPlugin {
     }
 
     private void hookIntoVault() {
-        if(Bukkit.getPluginManager().getPlugin("Vault") == null) {
+        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
             getLogger().warning("[Economy] Couldn't hook into Vault as it's not instaled or disabled.");
             return;
         }
