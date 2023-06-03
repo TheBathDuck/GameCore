@@ -1,6 +1,8 @@
 package net.minefight.gamecore.listeners;
 
 import net.minefight.gamecore.GameCore;
+import net.minefight.gamecore.combat.CombatManager;
+import net.minefight.gamecore.combat.CombatTimer;
 import net.minefight.gamecore.database.Database;
 import net.minefight.gamecore.players.PlayerData;
 import net.minefight.gamecore.players.PlayerManager;
@@ -25,6 +27,12 @@ public class PlayerQuitListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         PlayerData data = playerManager.getPlayerData(player.getUniqueId());
+
+        CombatManager combatManager = GameCore.getInstance().getCombatManager();
+        if(combatManager.isInCombat(player.getUniqueId())) {
+            CombatTimer timer = combatManager.getTimer(player.getUniqueId());
+            timer.cancel();
+        }
 
         if(playerManager.isCached(player.getUniqueId())) {
             playerManager.removePlayerData(player.getUniqueId());

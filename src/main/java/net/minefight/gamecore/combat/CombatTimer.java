@@ -39,7 +39,6 @@ public class CombatTimer extends BukkitRunnable {
         updateBar();
         if(seconds <= 0) {
             this.cancel();
-            destroy();
         }
     }
 
@@ -51,11 +50,13 @@ public class CombatTimer extends BukkitRunnable {
         bossBar.progress(progress);
     }
 
-    private void destroy() {
+    @Override
+    public void cancel() {
         player().hideBossBar(bossBar);
         bossBar = null;
         CombatManager combatManager = GameCore.getInstance().getCombatManager();
         combatManager.getCombatTimers().remove(player().getUniqueId());
+        Bukkit.getScheduler().cancelTask(this.getTaskId());
     }
 
     public int getSeconds() {

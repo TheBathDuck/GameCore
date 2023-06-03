@@ -22,7 +22,7 @@ public class TeleportHereCommand extends BaseCommand {
         }
 
         target.teleport(player);
-        player.sendMessage(ChatUtils.color("<primary>Teleported <secondary>" + player.getName() + " <primary>to you."));
+        player.sendMessage(ChatUtils.color("<primary>Teleported <secondary>" + target.getName() + " <primary>to you."));
     }
 
 }

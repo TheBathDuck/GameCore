@@ -57,46 +57,30 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         if (!playerManager.isCached(player.getUniqueId())) return "Loading..";
         PlayerData data = playerManager.getPlayerData(player.getUniqueId());
 
-        if (params.equals("gold")) {
-            return String.valueOf(data.getGold());
+        switch (params.toLowerCase()) {
+            case "gold":
+                return String.valueOf(data.getGold());
+            case "gold_formatted":
+                return goldFormat.format(data.getGold());
+            case "blocksmined":
+                return String.valueOf(data.getMined());
+            case "eco_sign":
+                return config.getEconomySign();
+            case "bal", "balance", "money":
+                return String.valueOf(data.getBalance());
+            case "bal_formatted":
+                return economyFormat.format(data.getBalance());
+            case "kills":
+                return String.valueOf(data.getKills());
+            case "deaths":
+                return String.valueOf(data.getDeaths());
+            case "lp_weight":
+                User user = luckPerms.getUserManager().getUser(player.getUniqueId());
+                if(user == null) return "-1";
+                return user.getCachedData().getMetaData().getMetaValue("weight");
         }
 
-        if (params.equals("gold_formatted")) {
-            return goldFormat.format(data.getGold());
-        }
-
-        if (params.equals("blocksmined")) {
-            return String.valueOf(data.getMined());
-        }
-
-        if(params.equals("eco_sign")) {
-            return config.getEconomySign();
-        }
-
-        if (params.equals("bal") || params.equals("balance") || params.equals("money")) {
-            return String.valueOf(data.getBalance());
-        }
-
-        if (params.equals("bal_formatted") || params.equals("balance_formatted") || params.equals("money_formatted")) {
-            return economyFormat.format(data.getBalance());
-        }
-
-        if (params.equals("kills")) {
-            return String.valueOf(data.getKills());
-        }
-
-        if (params.equals("deaths")) {
-            return String.valueOf(data.getDeaths());
-        }
-
-        if(params.equals("lp_weight")) {
-            User user = luckPerms.getUserManager().getUser(player.getUniqueId());
-            if(user == null) return "-1";
-            return user.getCachedData().getMetaData().getMetaValue("weight");
-        }
-
-
-        return null;
+        return "Unknown";
     }
 
 }

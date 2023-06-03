@@ -25,7 +25,7 @@ public class SpawnCommand extends BaseCommand {
         CombatManager combatManager = GameCore.getInstance().getCombatManager();
         if(combatManager.isInCombat(player.getUniqueId())) {
             CombatTimer timer = combatManager.getTimer(player.getUniqueId());
-            player.sendMessage(ChatUtils.color("<danger>You can't teleport to spawn as you have " + timer.getSeconds() + "seconds in combat left."));
+            player.sendMessage(ChatUtils.color("<danger>You can't teleport to spawn as you have " + timer.getSeconds() + " seconds in combat left."));
             return;
         }
 

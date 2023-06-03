@@ -3,7 +3,9 @@ package net.minefight.gamecore;
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
+import net.minefight.gamecore.combat.CombatCommand;
 import net.minefight.gamecore.combat.CombatManager;
+import net.minefight.gamecore.combat.CombatTimer;
 import net.minefight.gamecore.commands.*;
 import net.minefight.gamecore.commands.economy.BalanceCommand;
 import net.minefight.gamecore.commands.economy.EconomyCommand;
@@ -69,12 +71,18 @@ public final class GameCore extends JavaPlugin {
         registerListeners();
 
         hookIntoVault();
-        getLogger().warning("Plugin started in " + (start - System.currentTimeMillis()) + "ms!");
+        getLogger().warning("Plugin started in " + (System.currentTimeMillis() - start) + "ms!");
     }
 
     @Override
     public void onDisable() {
         vaultHook.unhook();
+
+        for(CombatTimer timer : combatManager.getCombatTimers().values()) {
+            getLogger().info("[CombatManager] Killed timer with ID " + timer.getTaskId());
+            timer.cancel();
+        }
+
     }
 
     public void registerListeners() {
@@ -124,6 +132,8 @@ public final class GameCore extends JavaPlugin {
         /* Admin Commands */
         commandManager.registerCommand(new MinefightCommand());
         commandManager.registerCommand(new LagCommand());
+        commandManager.registerCommand(new CombatCommand());
+        commandManager.registerCommand(new LoopCommand());
     }
 
     public void reloadGameConfig() {

@@ -21,12 +21,11 @@ public class CombatManager {
     public void setCombat(UUID uuid, int amount) {
         if(isInCombat(uuid)) {
             CombatTimer timer = getTimer(uuid);
-            timer.setSeconds(amount);
+            timer.setSeconds(amount + 1);
             return;
         }
         CombatTimer timer = new CombatTimer(uuid, amount);
         combatTimers.put(uuid, timer);
-        timer.player().sendMessage("Your timer started.");
         timer.runTaskTimerAsynchronously(plugin, 0L, 20L);
     }
 
