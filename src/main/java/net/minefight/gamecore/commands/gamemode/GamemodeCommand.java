@@ -10,7 +10,7 @@ import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
-@CommandAlias("gm|gamemode")
+@CommandAlias("gm|gamemode|gaymode")
 @Description("Change your gamemode.")
 public class GamemodeCommand extends BaseCommand {
 
@@ -18,7 +18,7 @@ public class GamemodeCommand extends BaseCommand {
         GameCore plugin = GameCore.getInstance();
 
         plugin.getCommandManager().getCommandCompletions().registerCompletion("gamemode", c -> {
-            return ImmutableList.of("creative", "survival", "adventure", "spectator", "c", "s", "a", "sp");
+            return ImmutableList.of("creative", "survival", "adventure", "spectator", "c", "s", "a", "sp", "1", "2", "3", "0");
         });
 
     }
@@ -30,7 +30,7 @@ public class GamemodeCommand extends BaseCommand {
         player.sendMessage(ChatUtils.color("<primary>/gamemode creative <gray>- <secondary>changes your gamemode to creative."));
     }
 
-    @Subcommand("creative|c")
+    @Subcommand("creative|c|1")
     @CommandPermission("minefight.command.gamemode.creative")
     @Description("Change your gamemode to Creative")
     public void creativeSelf(Player player) {
@@ -38,7 +38,7 @@ public class GamemodeCommand extends BaseCommand {
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Creative<primary>."));
     }
 
-    @Subcommand("creative|c")
+    @Subcommand("creative|c|1")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.creative.other")
     @Description("Change a players gamemode to Creative")
@@ -57,7 +57,7 @@ public class GamemodeCommand extends BaseCommand {
         }
     }
 
-    @Subcommand("survival|s")
+    @Subcommand("survival|s|0")
     @CommandPermission("minefight.command.gamemode.survival")
     @Description("Change your gamemode to Survival")
     public void survivalSelf(Player player) {
@@ -65,7 +65,7 @@ public class GamemodeCommand extends BaseCommand {
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Survival<primary>."));
     }
 
-    @Subcommand("survival|s")
+    @Subcommand("survival|s|0")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.survival.other")
     @Description("Change a players gamemode to Survival")
@@ -84,7 +84,7 @@ public class GamemodeCommand extends BaseCommand {
         }
     }
 
-    @Subcommand("adventure|a")
+    @Subcommand("adventure|a|2")
     @CommandPermission("minefight.command.adventure.creative")
     @Description("Change your gamemode to Adventure")
     public void adventureSelf(Player player) {
@@ -92,7 +92,7 @@ public class GamemodeCommand extends BaseCommand {
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Adventure<primary>."));
     }
 
-    @Subcommand("adventure|a")
+    @Subcommand("adventure|a|2")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.adventure.other")
     @Description("Change a players gamemode to Adventure")
@@ -111,7 +111,7 @@ public class GamemodeCommand extends BaseCommand {
         }
     }
 
-    @Subcommand("spectator|sp")
+    @Subcommand("spectator|sp|3")
     @CommandPermission("minefight.command.gamemode.spectator")
     @Description("Change your gamemode to Specator")
     public void spectatorSelf(Player player) {
@@ -119,7 +119,7 @@ public class GamemodeCommand extends BaseCommand {
         player.sendMessage(ChatUtils.color("<primary>You changed your gamemode to <secondary>Spectator<primary>."));
     }
 
-    @Subcommand("spectator|sp")
+    @Subcommand("spectator|sp|3")
     @CommandCompletion("@players")
     @CommandPermission("minefight.command.gamemode.spectator.other")
     @Description("Change a players gamemode to Specator")
