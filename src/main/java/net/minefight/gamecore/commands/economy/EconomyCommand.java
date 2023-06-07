@@ -55,7 +55,7 @@ public class EconomyCommand extends BaseCommand {
         targetData.setBalance(amount);
         sender.sendMessage(ChatUtils.color("<primary>You set <secondary>" + target.getName() + "'s <primary>balance to <secondary>" + config.getEconomySign() + format(amount) + "<primary>."));
         target.sendMessage(ChatUtils.color("<primary>Your balance was set to <secondary>" + config.getEconomySign() + format(amount) + "."));
-        updateData(targetData);
+        database.updateData(targetData);
     }
 
     @Subcommand("give")
@@ -75,7 +75,7 @@ public class EconomyCommand extends BaseCommand {
 
         sender.sendMessage(ChatUtils.color("<primary>You deposited <secondary>" + config.getEconomySign() + format(amount) + " <primary>to <secondary>" + target.getName() + "'s<primary> balance."));
         target.sendMessage(ChatUtils.color("<primary>You received <secondary>" + config.getEconomySign() + format(amount) + " <primary>from <secondary>" + sender.getName() + "<primary>."));
-        updateData(targetData);
+        database.updateData(targetData);
     }
 
     @Subcommand("take")
@@ -100,7 +100,7 @@ public class EconomyCommand extends BaseCommand {
         targetData.setBalance(balance - amount);
         sender.sendMessage(ChatUtils.color("<primary>You took <secondary>" + config.getEconomySign() + format(amount) + " <primary>from <secondary>" + target.getName()));
         target.sendMessage(ChatUtils.color("<secondary>" + config.getEconomySign() + amount + " <primary>has been taken from your account."));
-        updateData(targetData);
+        database.updateData(targetData);
     }
 
     @Subcommand("reset")
@@ -119,17 +119,13 @@ public class EconomyCommand extends BaseCommand {
 
         sender.sendMessage(ChatUtils.color("<primary>Balance of <secondary>" + target.getName() + " <primary>has been reset and set to <secondary>" + config.getEconomySign() + format(targetData.getBalance()) + "<primary>."));
         target.sendMessage(ChatUtils.color("<primary>Your balance has been reset to <secondary>" + config.getEconomySign() + format(targetData.getBalance())));
-        updateData(targetData);
+        database.updateData(targetData);
     }
 
     private String format(double number) {
         return decimalFormat.format(number);
     }
 
-    private void updateData(PlayerData data) {
-        database.updateData(data).thenAccept((d) -> {
-        });
-    }
 
 
 }

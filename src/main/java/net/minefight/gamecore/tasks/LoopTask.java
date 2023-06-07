@@ -1,6 +1,7 @@
 package net.minefight.gamecore.tasks;
 
 import net.kyori.adventure.bossbar.BossBar;
+import net.minefight.gamecore.commands.LoopCommand;
 import net.minefight.gamecore.utils.ChatUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -8,13 +9,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LoopTask extends BukkitRunnable {
 
+    private LoopCommand loopCommand;
     public Player player;
     public String command;
     private int amount;
     private int currentAmount;
     private BossBar bossBar;
 
-    public LoopTask(Player player, String command, int amount) {
+    public LoopTask(LoopCommand loopCommand, Player player, String command, int amount) {
+        this.loopCommand = loopCommand;
         this.player = player;
         this.command = command;
         this.amount = amount;
@@ -35,6 +38,7 @@ public class LoopTask extends BukkitRunnable {
 
     @Override
     public void cancel() {
+        loopCommand.getLoopTasks().remove(player.getUniqueId());
         player.hideBossBar(bossBar);
         bossBar = null;
         Bukkit.getScheduler().cancelTask(getTaskId());

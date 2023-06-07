@@ -2,6 +2,7 @@ package net.minefight.gamecore.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import lombok.Getter;
 import net.minefight.gamecore.GameCore;
 import net.minefight.gamecore.tasks.LoopTask;
 import net.minefight.gamecore.utils.ChatUtils;
@@ -13,7 +14,7 @@ import java.util.*;
 @CommandPermission("minefight.command.loop")
 public class LoopCommand extends BaseCommand {
 
-    private Map<UUID, LoopTask> loopTasks = new HashMap<>();
+    private @Getter Map<UUID, LoopTask> loopTasks = new HashMap<>();
 
     @Default
     @Syntax("<amount> <delay> <command>")
@@ -34,7 +35,7 @@ public class LoopCommand extends BaseCommand {
             return;
         }
 
-        LoopTask task = new LoopTask(player, command, amount);
+        LoopTask task = new LoopTask(this, player, command, amount);
         loopTasks.put(player.getUniqueId(), task);
         task.runTaskTimer(GameCore.getInstance(), 0L, delay);
     }
