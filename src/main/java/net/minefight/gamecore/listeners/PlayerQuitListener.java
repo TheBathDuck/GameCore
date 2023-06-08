@@ -27,6 +27,7 @@ public class PlayerQuitListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         PlayerData data = playerManager.getPlayerData(player.getUniqueId());
+        data.setLastJoin(System.currentTimeMillis());
 
         CombatManager combatManager = GameCore.getInstance().getCombatManager();
         if(combatManager.isInCombat(player.getUniqueId())) {

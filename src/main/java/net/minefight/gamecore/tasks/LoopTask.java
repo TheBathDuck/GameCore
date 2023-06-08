@@ -22,7 +22,7 @@ public class LoopTask extends BukkitRunnable {
         this.command = command;
         this.amount = amount;
         this.currentAmount = 0;
-        this.bossBar = BossBar.bossBar(ChatUtils.color("<white>Looping command <gray>\"" + command + "\"<white>. <white>Progress: <gray>0<dark_gray>/<gray>" + amount), 0, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS);
+        this.bossBar = BossBar.bossBar(ChatUtils.color("<white>Looping command <gray>\"" + command + "\"<white>. <white>Progress: <gray>0<dark_gray>/<gray>" + amount + " <dark_gray>(<gray>" + 0 + "%<dark_gray>)"), 0, BossBar.Color.WHITE, BossBar.Overlay.PROGRESS);
         player.showBossBar(bossBar);
     }
 
@@ -46,8 +46,9 @@ public class LoopTask extends BukkitRunnable {
 
     public void updateBar() {
         float value = (float) currentAmount / amount;
+        float percentage = (currentAmount * 100.0f) / amount;
         bossBar.progress(value);
-        bossBar.name(ChatUtils.color("<white>Looping command <gray>\"" + command + "\"<white>. <white>Progress: <gray>" + currentAmount + "<dark_gray>/<gray>" + amount));
+        bossBar.name(ChatUtils.color("<white>Looping command <gray>\"" + command + "\"<white>. <white>Progress: <gray>" + currentAmount + "<dark_gray>/<gray>" + amount + " <dark_gray>(<gray>" + (int) percentage + "%<dark_gray>)"));
     }
 
 }

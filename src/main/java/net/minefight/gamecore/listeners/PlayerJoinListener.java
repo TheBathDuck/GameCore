@@ -35,10 +35,12 @@ public class PlayerJoinListener implements Listener {
         database.isInDatabase(player.getUniqueId()).thenAccept((isInDatabase) -> {
             if(!isInDatabase) {
                 database.createPlayer(player.getUniqueId(), System.currentTimeMillis()).thenAccept((data) -> {
+                    long current = System.currentTimeMillis();
                     player.sendActionBar(ChatUtils.color("<primary>Your playerdata was <secondary>succesfully <primary>created!"));
-                    plugin.getLogger().info("[PlayerData] " + player.getName() + "'s data was created in " + (System.currentTimeMillis() - start) + "ms.");
+                    plugin.getLogger().info("[PlayerData] " + player.getName() + "'s data was created in " + (current - start) + "ms.");
                     playerManager.registerPlayerData(data);
                     setupNewPlayer(player);
+                    data.setLastJoin(current);
                 });
                 return;
             }
@@ -48,6 +50,7 @@ public class PlayerJoinListener implements Listener {
                 playerManager.registerPlayerData(data);
 
                 database.getPurchaseHistory(player.getUniqueId()).thenAccept(data::setPurchaseHistory);
+                data.setLastJoin(System.currentTimeMillis());
             });
         });
 

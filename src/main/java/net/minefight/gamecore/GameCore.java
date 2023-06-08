@@ -117,6 +117,7 @@ public final class GameCore extends JavaPlugin {
         commandManager.registerCommand(new GamemodeSpectatorCommand());
         commandManager.registerCommand(new ItemCommand());
         commandManager.registerCommand(new SkullCommand());
+        commandManager.registerCommand(new InfoCommand());
 
         /* Teleportation Commands */
         commandManager.registerCommand(new TeleportCommand());
