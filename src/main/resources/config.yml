@@ -1,12 +1,12 @@
 locations:
-  spawn: "world;18.5;71;18.5;64;6"
+  spawn: ""
 
 database:
-  host: "5.161.214.110"
+  host: ""
   port: 3306
-  database: "s3_Minefight"
-  username: "u3_p3ZaGeFaxh"
-  password: "idn2zGc4!AxYH0ECz=uFgry+"
+  database: ""
+  username: ""
+  password: ""
 
 economy:
   sign: "$"
